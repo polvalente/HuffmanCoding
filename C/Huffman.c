@@ -45,3 +45,51 @@ char findSymbol(char symbol, tree* t){
 	}
 	return NULL;
 }
+
+void sortTree(tree* t, int base_nodes){
+	//placeholder sort, using bubble sort
+	for(int i = 0; i < base_nodes-1; i++){
+		for(int j = 0; j < base_nodes-1; j++){
+			if(t[j] < t[j+1]){
+				tree temp = t[j];
+				t[j] = t[j+1];
+				t[j+1] = temp;
+			}
+		}
+	}
+}
+
+tree* reduceTree(tree* t, int base_nodes){
+	sortTree(t, base_nodes); // sort with higher frequencies first
+	while(base_nodes > 1){
+	// merge last node into second to last
+		tree new_node;
+		new_node.frequency = t[base_nodes-2] + t[base_nodes-1];
+		new_node.value = "";
+		new_node.symbol = '\0';
+
+		char *new_value = malloc(strlen(t[base_nodes-2].value) + 1);
+		new_value[0] = '0';
+		strcat(new_value, t[base_nodes-1].value);
+		t[base_nodes-2].value = new_value;
+
+		char *new_value = malloc(strlen(t[base_nodes-1].value) + 1);
+		new_value[0] = '1';
+		strcat(new_value, t[base_nodes-1].value);
+		t[base_nodes-1].value = new_value;
+
+		new_node.leftChild = t[base_nodes-2];
+		new_node.rightChild = t[base_nodes-1];
+
+	// decrement base_node count
+	base_nodes--; // we do not lose the pointer to the last position, so this is ok
+
+	// re-sort tree
+	sortTree(t, base_nodes); // sort with higher frequencies first
+	}
+
+	return t;
+}
+
+tree* parseFile(input, int* base_nodes){
+}

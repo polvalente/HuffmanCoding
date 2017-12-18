@@ -3,7 +3,7 @@
 
 typedef struct tree {
 	int frequency;
-	char value;
+	char* value;
 	char symbol;
 	tree *leftChild;
 	tree *rightChild;
@@ -14,8 +14,8 @@ void del_tree(tree* tree);
 
 void writeOutput(char* input, char* output, tree* huffmanTree);
 
-tree* parseFile(input);
-tree* reduceTree(tree* tree);
+tree* parseFile(input, int* base_nodes);
+tree* reduceTree(tree* tree, int base_nodes);
 
 char findSymbol(char symbol, tree* huffmanTree);
 
